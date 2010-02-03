@@ -1,0 +1,51 @@
+DirectoryIndex index.php
+AddDefaultCharset Off
+# AddOutputFilterByType DEFLATE text/html text/plain text/xml
+
+<IfModule mod_rewrite.c>
+	Options +FollowSymLinks
+	RewriteEngine On
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule ^(.*)$ index.php/$1 [QSA,L]
+</IfModule>
+
+
+#######################################################################
+# PHP Configuration                                                   #
+#######################################################################
+# PHPのデフォルトエンコーディング
+php_value default_charset utf-8
+
+# POSTやGETで渡された文字列のエンコーディングを自動で変更するかどうか
+php_value mbstring.encoding_translation Off
+
+# POSTやGETで渡された文字列をどの文字コードに変換するか
+php_value mbstring.http_input pass
+
+# ブラウザに返す文字列をどの文字コードに変換するか
+php_value mbstring.http_output pass
+
+# mbstring関数のデフォルトエンコード
+php_value mbstring.internal_encoding UTF-8
+
+# mb_detect_encodingで判定する文字コードの順番
+php_value mbstring.detect_order ASCII,JIS,UTF-8,eucjp-win,sjis-win
+
+# ソースコードの文字コード
+php_value mbstring.script_encoding UTF-8
+
+# <?= ?>を使用可能にするかどうか
+php_flag short_open_tag On
+
+# セッション使用時にクッキーを利用するかどうか
+php_flag session.use_cookies On
+
+# PHPのエラーを表示するかどうか
+php_flag display_errors On
+
+# リンクに対して自動でセッションIDを付与するかどうか
+# php_flag session.use_trans_sid Off
+
+# セッションを保存するディレクトリを指定
+# php_value session.save_path '/opt/local/var/lib/php5/sessions'
