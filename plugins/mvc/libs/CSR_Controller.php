@@ -1,11 +1,47 @@
 <?php
 
 class CSR_Controller extends CSR_Event {
+	/*===============================================================*/
+	/* Event Constants                                               */
+	/*===============================================================*/
+	/**
+	 * Constant before action event
+	 */
+	const BEFORE_ACTION = 'before_action';
+	/**
+	 * Constant after action event
+	 */
+	const AFTER_ACTION = 'after_action';
+	/**
+	 * Constant before render event
+	 */
+	const BEFORE_RENDER = 'before_render';
+	/**
+	 * Constant after render event
+	 */
+	const AFTER_RENDER = 'after_render';
+	/**
+	 * Constant before output event
+	 */
+	const BEFORE_OUTPUT = 'before_output';
+	/**
+	 * Constant after output event
+	 */
+	const AFTER_OUTPUT = 'after_output';
+
+
+	/*===============================================================*/
+	/* Instance Variables                                            */
+	/*===============================================================*/
 	protected $controller = null;
 	protected $action = null;
 	protected $layout = array();
 	protected $_vars  = array();
 	
+
+	/*===============================================================*/
+	/* Getter & Setter methods                                       */
+	/*===============================================================*/
 	protected function _setControllerName($name) {
 		$this->controller = $name;
 	}
@@ -30,28 +66,28 @@ class CSR_Controller extends CSR_Event {
 		/*===========================================================*/
 		/* Action method.                                            */
 		/*===========================================================*/
-		$this->triggerEvent(CSR_EVENT_BEFORE_ACTION);
+		$this->triggerEvent(self::BEFORE_ACTION);
 		$result = call_user_func_array(array($this, $action), $arguments);
-		$this->triggerEvent(CSR_EVENT_BEFORE_ACTION);
+		$this->triggerEvent(self::BEFORE_ACTION);
 
 		if ($result !== false) {
 			/*=======================================================*/
 			/* Render view.                                          */
 			/*=======================================================*/
 			$view = new CSR_View($this->controller, $this->action);
-			$this->triggerEvent(CSR_EVENT_BEFORE_RENDER);
+			$this->triggerEvent(self::BEFORE_RENDER);
 			if (is_array($this->layout)) {
 				$content = $view->render($this->layout, $this->_vars);
 			}
-			$this->triggerEvent(CSR_EVENT_AFTER_RENDER, array(&$content));
+			$this->triggerEvent(self::AFTER_RENDER, array(&$content));
 			
 			
 			/*=======================================================*/
 			/* Output content.                                       */
 			/*=======================================================*/
-			$this->triggerEvent(CSR_EVENT_BEFORE_OUTPUT);
+			$this->triggerEvent(self::BEFORE_OUTPUT);
 			echo $content;
-			$this->triggerEvent(CSR_EVENT_AFTER_OUTPUT);
+			$this->triggerEvent(self::AFTER_OUTPUT);
 		}
 		
 		return true;
@@ -60,7 +96,7 @@ class CSR_Controller extends CSR_Event {
 	public static function loadController($name) {
 		$controllerName = ucwords($name);
 		$controllerClassName = $controllerName . 'Controller';
-		$controllerClassPath = CSR_CONTROLLERS_DIR . $controllerClassName . '.php';
+		$controllerClassPath = CSR_MVC_CONTROLLERS_DIR . $controllerClassName . '.php';
 		if (!file_exists($controllerClassPath)) {
 			throw new MissingControllerException();
 			return false;
@@ -74,6 +110,6 @@ class CSR_Controller extends CSR_Event {
 	
 	// モデルを読み込む
 	protected function useModel($modelPath) {
-		require CSR_MODELS_DIR . $modelPath . '.php';
+		require CSR_MVC_MODELS_DIR . $modelPath . '.php';
 	}
 }

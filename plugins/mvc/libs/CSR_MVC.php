@@ -14,9 +14,21 @@ $_mvc = CSR_MVC::getInstance($_csr);
 $_csr->setTargetFunction(CSR_MVC_TARGET_REGEXP, array($_mvc, 'execute'));
 
 class CSR_MVC {
+	/*===============================================================*/
+	/* Class Variables                                               */
+	/*===============================================================*/
 	private static $_instance = null;
+
+
+	/*===============================================================*/
+	/* Instance Variables                                            */
+	/*===============================================================*/
 	private $csr = null;
 	
+
+	/*===============================================================*/
+	/* Construct & Destruct                                          */
+	/*===============================================================*/
 	private function __construct($csr) {
 		$this->csr = $csr;
 	}
@@ -28,6 +40,10 @@ class CSR_MVC {
 		return self::$_instance;
 	}
 	
+	
+	/*===============================================================*/
+	/* Public methods                                                */
+	/*===============================================================*/
 	public function execute() {
 		$dispatcher = $this->csr->getDispatcher();
 		

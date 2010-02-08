@@ -4,7 +4,7 @@
 ?>
 <p>指定されたコントローラーが見つかりませんでした。</p>
 <p>
-	意図せずこの画面が表示された場合は、 <?php echo CSR_CONTROLLERS_DIR ?> ディレクトリに
+	意図せずこの画面が表示された場合は、 <?php echo CSR_MVC_CONTROLLERS_DIR ?> ディレクトリに
 	<?php echo ucwords($controller); ?>Controller.phpという名前で、以下のような内容のファイルが存在することを確かめてください。
 </p>
 <pre>

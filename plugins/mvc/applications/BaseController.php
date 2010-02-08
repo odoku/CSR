@@ -4,12 +4,12 @@ CSR::module('org.shamoo.functions.Shortcuts');
 
 class BaseController extends CSR_Controller {
 	public function __construct() {
-		// $this->addEvent(CSR_EVENT_BEFORE_ACTION, array($this, '_eventBeforeActionHandler'));
-		// $this->addEvent(CSR_EVENT_AFTER_ACTION , array($this, '_eventAfterActionHandler' ));
-		// $this->addEvent(CSR_EVENT_BEFORE_RENDER, array($this, '_eventBeforeRenderHandler'));
-		// $this->addEvent(CSR_EVENT_AFTER_RENDER , array($this, '_eventAfterRenderHandler' ));
-		// $this->addEvent(CSR_EVENT_BEFORE_OUTPUT, array($this, '_eventBeforeOutputHandler'));
-		// $this->addEvent(CSR_EVENT_AFTER_OUTPUT , array($this, '_eventAfterOutputHandler' ));
+		// $this->addEvent(self::BEFORE_ACTION, array($this, '_eventBeforeActionHandler'));
+		// $this->addEvent(self::AFTER_ACTION , array($this, '_eventAfterActionHandler' ));
+		// $this->addEvent(self::BEFORE_RENDER, array($this, '_eventBeforeRenderHandler'));
+		// $this->addEvent(self::AFTER_RENDER , array($this, '_eventAfterRenderHandler' ));
+		// $this->addEvent(self::BEFORE_OUTPUT, array($this, '_eventBeforeOutputHandler'));
+		// $this->addEvent(self::AFTER_OUTPUT , array($this, '_eventAfterOutputHandler' ));
 	}
 
 	protected function _eventBeforeActionHandler() {

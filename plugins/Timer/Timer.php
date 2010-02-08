@@ -3,8 +3,8 @@
 $_timer = new Timer();
 
 $_csr = CSR::getInstance();
-$_csr->addEvent(CSR_EVENT_APPLICATION_START, array($_timer, 'start' ));
-$_csr->addEvent(CSR_EVENT_APPLICATION_END  , array($_timer, 'elapse'));
+$_csr->addEvent(CSR::APPLICATION_START, array($_timer, 'start' ));
+$_csr->addEvent(CSR::APPLICATION_END  , array($_timer, 'elapse'));
 
 class Timer {
 	private $_startTime   = 0;

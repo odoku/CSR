@@ -4,11 +4,55 @@ require_once 'CSR_Event.php';
 require_once 'CSR_Dispatcher.php';
 
 class CSR extends CSR_Event {
+	/*===============================================================*/
+	/* Constants event                                               */
+	/*===============================================================*/
+	/**
+	 * Constant application start event
+	 */
+	const APPLICATION_START = 'application_start';
+	/**
+	 * Constant application end event
+	 */
+	const APPLICATION_END = 'application_end';
+	/**
+	 * Constant before routing event
+	 */
+	const BEFORE_ROUTING = 'before_routing';
+	/**
+	 * Constant after routing event
+	 */
+	const AFTER_ROUTING = 'after_routing';
+	/**
+	 * Constant before routing event
+	 */
+	const BEFORE_EXEC_TARGET_FUNCTION = 'before_exec_target_function';
+	/**
+	 * Constant after routing event
+	 */
+	const AFTER_EXEC_TARGET_FUNCTION = 'after_exec_target_function';
+	/**
+	 * Constant dispatch error event
+	 */
+	const DISPATCH_ERROR = 'dispatch_error';
+	
+
+	/*===============================================================*/
+	/* Class Variables                                               */
+	/*===============================================================*/
 	private static $_instance = null;
 	
+
+	/*===============================================================*/
+	/* Instance Variables                                            */
+	/*===============================================================*/
 	private $_dispatcher = null;
 	private $_targetFunctions = array();
 	
+
+	/*===============================================================*/
+	/* Getter & Setter methods                                       */
+	/*===============================================================*/
 	public function getDispatcher() {
 		return $this->_dispatcher;
 	}
@@ -25,8 +69,12 @@ class CSR extends CSR_Event {
 		$this->_targetFunctions[$pattern] = $callback;
 	}
 	
+
+	/*===============================================================*/
+	/* Construct & Destruct                                          */
+	/*===============================================================*/
 	private function __construct() {
-		$this->addEvent(CSR_EVENT_DISPATCH_ERROR, array($this, 'dispatchErrorHandler'));
+		$this->addEvent(self::DISPATCH_ERROR, array($this, 'dispatchErrorHandler'));
 	}
 	
 	public static function getInstance() {
@@ -59,38 +107,38 @@ class CSR extends CSR_Event {
 			/*=======================================================*/
 			/* Application start.                                    */
 			/*=======================================================*/
-			$this->triggerEvent(CSR_EVENT_APPLICATION_START);
+			$this->triggerEvent(self::APPLICATION_START);
 
 
 			/*=======================================================*/
 			/* Parse Request URI.                                    */
 			/*=======================================================*/
-			$this->triggerEvent(CSR_EVENT_BEFORE_ROUTING);
+			$this->triggerEvent(self::BEFORE_ROUTING);
 			$this->_dispatcher = new CSR_Dispatcher($routes);
 			$parsed = $this->_dispatcher->parseRequestURI($_SERVER['REQUEST_URI']);
 			if (is_null($parsed)) throw new RequestURIParseException();
-			$this->triggerEvent(CSR_EVENT_AFTER_ROUTING);
+			$this->triggerEvent(self::AFTER_ROUTING);
 
 
 			/*=======================================================*/
 			/* Execute target function.                              */
 			/*=======================================================*/
-			$this->triggerEvent(CSR_EVENT_BEFORE_EXEC_TARGET_FUNCTION);
+			$this->triggerEvent(self::BEFORE_EXEC_TARGET_FUNCTION);
 			$targetFunction = null;
 			foreach ($this->_targetFunctions as $pattern => $function) {
 				if (preg_match($pattern, $parsed['target']) !== 0) $targetFunction = $function;
 			}
 			if (is_null($targetFunction)) throw new MissingTargetFunctionException();
 			$result = call_user_func($function);
-			$this->triggerEvent(CSR_EVENT_AFTER_EXEC_TARGET_FUNCTION);
+			$this->triggerEvent(self::AFTER_EXEC_TARGET_FUNCTION);
 			
 
 			/*=======================================================*/
 			/* Application end.                                      */
 			/*=======================================================*/
-			$this->triggerEvent(CSR_EVENT_APPLICATION_END);
+			$this->triggerEvent(self::APPLICATION_END);
 		} catch (CSR_Exception $e) {
-			$this->triggerEvent(CSR_EVENT_DISPATCH_ERROR, array(array(
+			$this->triggerEvent(self::DISPATCH_ERROR, array(array(
 				'status'        => $e->getHTTPStatusCode(),
 				'message'       => $e->getMessage(),
 				'debugHelpFile' => $e->getDebugHelpFilePath()

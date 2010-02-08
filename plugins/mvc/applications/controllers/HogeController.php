@@ -8,7 +8,7 @@ class HogeController extends BaseController {
 	}
 
 	public function index() {
-		// $this->layout = array(CSR_VIEWS_DIR . 'Index' . DS . 'index.html');
+		// $this->layout = array(CSR_MVC_VIEWS_DIR . 'Index' . DS . 'index.html');
 		$this->set('pageTitle', 'Hoge Controller');
 	}
 }

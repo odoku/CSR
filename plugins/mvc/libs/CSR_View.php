@@ -16,8 +16,8 @@ class CSR_View extends CSR_Event {
 		$this->_vars = $vars;
 		
 		if (count($layouts) === 0) {
-			$layouts[] = CSR_VIEWS_DIR . CSR_LAYOUT_FILE_NAME;
-			$layouts[] = CSR_VIEWS_DIR . $this->_controller . DS . $this->_action . '.html';
+			$layouts[] = CSR_MVC_VIEWS_DIR . CSR_LAYOUT_FILE_NAME;
+			$layouts[] = CSR_MVC_VIEWS_DIR . $this->_controller . DS . $this->_action . '.html';
 		}
 		$this->_layouts = $layouts;
 		
